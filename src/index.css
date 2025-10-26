@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-white text-warm-charcoal;
+  }
+}
+
+@layer components {
+  .smooth-shadow {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  }
+  
+  .smooth-shadow-hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  }
+  
+  .ec2-gradient-text {
+    @apply bg-gradient-to-r from-ec2-yellow via-ec2-pink to-ec2-cyan bg-clip-text text-transparent;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
