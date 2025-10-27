@@ -30,7 +30,7 @@ const AboutUs = () => {
         const teamData = await teamAPI.getAll();
         setLeadership(teamData);
       } catch (err) {
-        console.error('Error fetching team members:', err);
+        if (process.env.NODE_ENV === 'development') console.error('Error fetching team members:', err);
         setError('Failed to load team members. Please try again later.');
       } finally {
         setLoading(false);
@@ -74,7 +74,7 @@ const AboutUs = () => {
         setSubmitStatus(null);
       }, 3000);
     } catch (error) {
-      console.error('Error submitting application:', error);
+      if (process.env.NODE_ENV === 'development') console.error('Error submitting application:', error);
       setSubmitStatus({ 
         type: 'error', 
         message: 'Failed to submit application. Please try again.' 

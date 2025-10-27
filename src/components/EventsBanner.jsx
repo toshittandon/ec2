@@ -17,7 +17,7 @@ const EventsBanner = () => {
         const sortedEvents = eventsData.sort((a, b) => new Date(a.eventDate) - new Date(b.eventDate));
         setAllEvents(sortedEvents);
       } catch (err) {
-        console.error('Error fetching events:', err);
+        if (process.env.NODE_ENV === 'development') console.error('Error fetching events:', err);
         // Keep empty array, component will show fallback
       } finally {
         setLoading(false);

@@ -20,7 +20,7 @@ const Events = () => {
         setEvents(fetchedEvents);
         setError(null);
       } catch (err) {
-        console.error('Error fetching events:', err);
+        if (process.env.NODE_ENV === 'development') console.error('Error fetching events:', err);
         setError('Failed to load events. Please try again later.');
       } finally {
         setLoading(false);

@@ -8,7 +8,7 @@ export const storageAPI = {
     try {
       return await storage.createFile(bucketId, fileId, file);
     } catch (error) {
-      console.error('Error uploading file:', error);
+      if (process.env.NODE_ENV === 'development') console.error('Error uploading file:', error);
       throw error;
     }
   },
@@ -18,7 +18,7 @@ export const storageAPI = {
     try {
       return storage.getFilePreview(bucketId, fileId, width, height);
     } catch (error) {
-      console.error('Error getting file preview:', error);
+      if (process.env.NODE_ENV === 'development') console.error('Error getting file preview:', error);
       throw error;
     }
   },
@@ -28,7 +28,7 @@ export const storageAPI = {
     try {
       return storage.getFileView(bucketId, fileId);
     } catch (error) {
-      console.error('Error getting file view:', error);
+      if (process.env.NODE_ENV === 'development') console.error('Error getting file view:', error);
       throw error;
     }
   },
@@ -38,7 +38,7 @@ export const storageAPI = {
     try {
       return storage.getFileDownload(bucketId, fileId);
     } catch (error) {
-      console.error('Error getting file download:', error);
+      if (process.env.NODE_ENV === 'development') console.error('Error getting file download:', error);
       throw error;
     }
   },
@@ -48,7 +48,7 @@ export const storageAPI = {
     try {
       return await storage.deleteFile(bucketId, fileId);
     } catch (error) {
-      console.error('Error deleting file:', error);
+      if (process.env.NODE_ENV === 'development') console.error('Error deleting file:', error);
       throw error;
     }
   },
@@ -58,7 +58,7 @@ export const storageAPI = {
     try {
       return await storage.getFile(bucketId, fileId);
     } catch (error) {
-      console.error('Error getting file metadata:', error);
+      if (process.env.NODE_ENV === 'development') console.error('Error getting file metadata:', error);
       throw error;
     }
   },
@@ -68,7 +68,7 @@ export const storageAPI = {
     try {
       return await storage.listFiles(bucketId);
     } catch (error) {
-      console.error('Error listing files:', error);
+      if (process.env.NODE_ENV === 'development') console.error('Error listing files:', error);
       throw error;
     }
   },

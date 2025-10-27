@@ -24,7 +24,7 @@ const Blogs = () => {
         setBlogs(fetchedBlogs);
         setError(null);
       } catch (err) {
-        console.error('Error fetching blogs:', err);
+        if (process.env.NODE_ENV === 'development') console.error('Error fetching blogs:', err);
         setError('Failed to load blogs. Please try again later.');
       } finally {
         setLoading(false);
@@ -53,7 +53,7 @@ const Blogs = () => {
       setNewsletterStatus({ type: 'success', message: 'Successfully subscribed! Check your inbox for confirmation.' });
       setNewsletterEmail('');
     } catch (error) {
-      console.error('Error subscribing to newsletter:', error);
+      if (process.env.NODE_ENV === 'development') console.error('Error subscribing to newsletter:', error);
       if (error.message?.includes('duplicate')) {
         setNewsletterStatus({ type: 'error', message: 'This email is already subscribed!' });
       } else {

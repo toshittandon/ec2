@@ -26,7 +26,7 @@ const Contact = () => {
       setSubmitStatus({ type: 'success', message: 'Thank you for your message! We\'ll get back to you soon.' });
       setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (error) {
-      console.error('Error submitting contact form:', error);
+      if (process.env.NODE_ENV === 'development') console.error('Error submitting contact form:', error);
       setSubmitStatus({ type: 'error', message: 'Failed to send message. Please try again.' });
     } finally {
       setSubmitting(false);
