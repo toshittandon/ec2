@@ -7,7 +7,7 @@ import LoadingAnimation from './components/LoadingAnimation';
 import Home from './pages/Home';
 import Events from './pages/Events';
 import Blogs from './pages/Blogs';
-import Team from './pages/Team';
+import AboutUs from './pages/AboutUs';
 import Contact from './pages/Contact';
 
 function AnimatedRoutes() {
@@ -19,7 +19,7 @@ function AnimatedRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="/events" element={<Events />} />
         <Route path="/blogs" element={<Blogs />} />
-        <Route path="/team" element={<Team />} />
+        <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
     </AnimatePresence>

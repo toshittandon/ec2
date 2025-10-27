@@ -37,7 +37,7 @@ const Header = () => {
           </Link>
 
           <ul className="hidden lg:flex items-center space-x-6 xl:space-x-8">
-            {['Home', 'Events', 'Blogs', 'Team', 'Contact'].map((item, index) => (
+            {['Home', 'About Us', 'Events', 'Blogs', 'Contact'].map((item, index) => (
               <motion.li 
                 key={item}
                 initial={{ opacity: 0, y: -20 }}
@@ -45,7 +45,7 @@ const Header = () => {
                 transition={{ delay: index * 0.1, duration: 0.3 }}
               >
                 <Link
-                  to={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
+                  to={item === 'Home' ? '/' : `/${item.toLowerCase().replace(' ', '')}`}
                   className={`font-medium transition-colors hover:text-ec2-pink relative ${
                     scrolled || !isHome ? 'text-warm-bg' : 'text-warm-charcoal'
                   }`}
@@ -134,7 +134,7 @@ const Header = () => {
             
                 <div className="mt-12">
                   <ul className="flex flex-col space-y-6">
-                {['Home', 'Events', 'Blogs', 'Team', 'Contact'].map((item, index) => (
+                {['Home', 'About Us', 'Events', 'Blogs', 'Contact'].map((item, index) => (
                   <motion.li 
                     key={item}
                     initial={{ opacity: 0, x: 20 }}
@@ -142,7 +142,7 @@ const Header = () => {
                     transition={{ delay: index * 0.1, duration: 0.3 }}
                   >
                     <Link
-                      to={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
+                      to={item === 'Home' ? '/' : `/${item.toLowerCase().replace(' ', '')}`}
                       onClick={() => setMobileMenuOpen(false)}
                       className="font-medium text-warm-charcoal transition-colors hover:text-ec2-pink block text-lg"
                     >

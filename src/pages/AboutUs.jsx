@@ -5,7 +5,7 @@ import { teamImagesAPI } from '../lib/storage';
 import PageTransition from '../components/PageTransition';
 import AnimatedSection from '../components/AnimatedSection';
 
-const Team = () => {
+const AboutUs = () => {
   const [leadership, setLeadership] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -109,17 +109,52 @@ const Team = () => {
     <PageTransition>
       <div className="min-h-screen pt-24 pb-16 bg-warm-bg">
         <div className="container mx-auto px-4 sm:px-6">
-          {/* Header */}
-          <AnimatedSection className="mb-16 text-center">
+          {/* About Us Header */}
+          <AnimatedSection className="mb-12 text-center">
             <h1 style={{
               background: 'linear-gradient(to right, #FFD700, #E91E63, #00BCD4)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text'
             }} className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-              Our Team
+              About Us
             </h1>
-            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto px-4">
+          </AnimatedSection>
+
+          {/* About Us Description & Vision */}
+          <AnimatedSection delay={0.1} className="mb-16 max-w-4xl mx-auto">
+            <div className="bg-white rounded-2xl p-8 sm:p-12 smooth-shadow">
+              <p className="text-lg md:text-xl text-gray-700 leading-relaxed mb-8 text-center">
+                Welcome to EC² - where possibilities meet action. We are more than just a club; 
+                we are a vibrant community of aspiring entrepreneurs, innovators, and change-makers.
+              </p>
+              
+              {/* Vision Section */}
+              <div className="bg-gradient-to-br from-warm-accent/10 to-warm-peach/10 rounded-xl p-6 sm:p-8 border-l-4 border-warm-accent">
+                <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-warm-charcoal flex items-center justify-center">
+                  <span className="mr-3"></span>
+                  Our Vision
+                </h2>
+                <p className="text-base sm:text-lg text-gray-700 leading-relaxed text-center">
+                  A place to find possibilities and transform ideas into real-world startups and solutions. 
+                  Our entrepreneurship club is a collaborative community where we come together to 
+                  continuously learn and share experiences.
+                </p>
+              </div>
+            </div>
+          </AnimatedSection>
+
+          {/* Our Team Section Header */}
+          <AnimatedSection delay={0.2} className="mb-12 text-center">
+            <h2 style={{
+              background: 'linear-gradient(to right, #E91E63, #00BCD4, #4CAF50)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            }} className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+              Our Team
+            </h2>
+            <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto px-4">
               Meet the passionate individuals driving EC²'s mission to empower
               Berlin's next generation of entrepreneurs and community leaders.
             </p>
@@ -493,4 +528,4 @@ const Team = () => {
   );
 };
 
-export default Team;
+export default AboutUs;
