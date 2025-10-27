@@ -1,31 +1,9 @@
 import { Link } from 'react-router-dom';
 import ButtonPrimary from '../components/ButtonPrimary';
 import FeatureCard from '../components/FeatureCard';
+import EventsBanner from '../components/EventsBanner';
 
 const Home = () => {
-  const upcomingEvents = [
-    {
-      id: 1,
-      title: 'Startup Pitch Night',
-      date: 'Nov 15, 2025',
-      location: 'Factory Berlin',
-      category: 'Entrepreneurship',
-    },
-    {
-      id: 2,
-      title: 'Berlin Park Cleanup',
-      date: 'Nov 22, 2025',
-      location: 'Tiergarten',
-      category: 'Community',
-    },
-    {
-      id: 3,
-      title: 'Tech Talk: AI & Ethics',
-      date: 'Dec 3, 2025',
-      location: 'TU Berlin',
-      category: 'Learning',
-    },
-  ];
 
   return (
     <div className="min-h-screen">
@@ -130,72 +108,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Upcoming Events Teaser */}
-      <section className="py-12 sm:py-16 md:py-20 bg-warm-bg">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 sm:mb-12 gap-4">
-            <h2 style={{
-              background: 'linear-gradient(to right, #FFD700, #E91E63, #00BCD4)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
-            }} className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">
-              Upcoming Events
-            </h2>
-            <Link
-              to="/events"
-              className="text-ec2-pink hover:text-ec2-magenta hover:underline font-semibold transition-colors text-sm sm:text-base"
-            >
-              View All →
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {upcomingEvents.map((event, index) => (
-              <div
-                key={event.id}
-                className="bg-white rounded-xl overflow-hidden smooth-shadow hover:smooth-shadow-hover transition-all duration-300 hover:-translate-y-1"
-              >
-                <div style={{
-                  background: index === 0 
-                    ? 'linear-gradient(to bottom right, #E91E63, #C2185B)' 
-                    : index === 1 
-                    ? 'linear-gradient(to bottom right, #00BCD4, #2196F3)' 
-                    : 'linear-gradient(to bottom right, #4CAF50, #8BC34A)'
-                }} className="h-40 sm:h-48 flex items-center justify-center">
-                  <span className="text-white text-5xl sm:text-6xl">
-                    {event.category === 'Entrepreneurship'
-                      ? '🚀'
-                      : event.category === 'Community'
-                      ? '🤝'
-                      : '📚'}
-                  </span>
-                </div>
-                <div className="p-4 sm:p-6">
-                  <div style={{
-                    color: index === 0 ? '#E91E63' : index === 1 ? '#00BCD4' : '#4CAF50'
-                  }} className="text-xs sm:text-sm font-semibold mb-2">
-                    {event.category}
-                  </div>
-                  <h3 className="text-lg sm:text-xl font-bold mb-2 text-warm-charcoal">
-                    {event.title}
-                  </h3>
-                  <div className="text-gray-600 text-xs sm:text-sm space-y-1">
-                    <div className="flex items-center">
-                      <span className="mr-2">📅</span>
-                      {event.date}
-                    </div>
-                    <div className="flex items-center">
-                      <span className="mr-2">📍</span>
-                      {event.location}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Events Banner */}
+      <EventsBanner />
 
       {/* CTA Section */}
       <section className="py-12 sm:py-16 md:py-20 bg-white">
