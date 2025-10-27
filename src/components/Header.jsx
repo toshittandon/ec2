@@ -36,7 +36,7 @@ const Header = () => {
           </Link>
 
           <ul className="hidden lg:flex items-center space-x-6 xl:space-x-8">
-            {['Home', 'Events', 'Team', 'Contact'].map((item) => (
+            {['Home', 'Events', 'Blogs', 'Team', 'Contact'].map((item) => (
               <li key={item}>
                 <Link
                   to={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
@@ -90,7 +90,7 @@ const Header = () => {
         {mobileMenuOpen && (
           <div className="lg:hidden mt-4 pb-4">
             <ul className="flex flex-col space-y-4">
-              {['Home', 'Events', 'Team', 'Contact'].map((item) => (
+              {['Home', 'Events', 'Blogs', 'Team', 'Contact'].map((item) => (
                 <li key={item}>
                   <Link
                     to={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
