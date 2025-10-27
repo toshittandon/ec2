@@ -18,6 +18,7 @@ const Contact = () => {
     setSubmitStatus(null);
 
     try {
+      // Submit only user-provided fields; API will set status internally
       await contactAPI.create(formData);
       setSubmitStatus({ type: 'success', message: 'Thank you for your message! We\'ll get back to you soon.' });
       setFormData({ name: '', email: '', subject: '', message: '' });

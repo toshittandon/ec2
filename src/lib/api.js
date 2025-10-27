@@ -321,14 +321,12 @@ export const contactAPI = {
   // Create contact submission
   async create(submissionData) {
     try {
+      // Send only the fields provided by the form (no status attribute in schema)
       return await databases.createDocument(
         DATABASE_ID,
         COLLECTIONS.CONTACT_SUBMISSIONS,
         'unique()',
-        {
-          ...submissionData,
-          status: 'pending' // Set default status for new submissions
-        }
+        submissionData
       );
     } catch (error) {
       console.error('Error creating contact submission:', error);
@@ -430,14 +428,12 @@ export const teamApplicationsAPI = {
   // Create team application
   async create(applicationData) {
     try {
+      // Send only the fields provided by the form (no status attribute modification)
       return await databases.createDocument(
         DATABASE_ID,
         COLLECTIONS.TEAM_APPLICATIONS,
         'unique()',
-        {
-          ...applicationData,
-          status: 'pending', // Set default status
-        }
+        applicationData
       );
     } catch (error) {
       console.error('Error creating team application:', error);
