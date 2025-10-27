@@ -325,7 +325,10 @@ export const contactAPI = {
         DATABASE_ID,
         COLLECTIONS.CONTACT_SUBMISSIONS,
         'unique()',
-        submissionData
+        {
+          ...submissionData,
+          status: 'pending' // Set default status for new submissions
+        }
       );
     } catch (error) {
       console.error('Error creating contact submission:', error);
