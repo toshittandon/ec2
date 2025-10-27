@@ -6,7 +6,7 @@ import PageTransition from '../components/PageTransition';
 import AnimatedSection from '../components/AnimatedSection';
 
 const Events = () => {
-  const [filter, setFilter] = useState('Upcoming');
+  const [filter, setFilter] = useState('All');
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -38,6 +38,7 @@ const Events = () => {
   const previousEvents = events.filter(e => new Date(e.eventDate) < today);
 
   const filteredEvents = 
+    filter === 'All' ? events :
     filter === 'Upcoming' ? upcomingEvents : 
     filter === 'Previous' ? previousEvents : 
     events;
@@ -73,7 +74,14 @@ const Events = () => {
           </AnimatedSection>
 
           {/* Stats Summary */}
-          <AnimatedSection delay={0.1} className="mb-8 grid grid-cols-2 gap-4 max-w-md mx-auto">
+          <AnimatedSection delay={0.1} className="mb-8 grid grid-cols-3 gap-4 max-w-2xl mx-auto">
+            <motion.div 
+              className="bg-white rounded-lg p-4 text-center shadow-sm"
+              whileHover={{ scale: 1.05 }}
+            >
+              <div className="text-2xl font-bold text-ec2-blue">{events.length}</div>
+              <div className="text-sm text-gray-600">Total</div>
+            </motion.div>
             <motion.div 
               className="bg-white rounded-lg p-4 text-center shadow-sm"
               whileHover={{ scale: 1.05 }}
@@ -92,26 +100,30 @@ const Events = () => {
 
           {/* Filter Bar */}
           <AnimatedSection delay={0.2} className="mb-12 flex flex-wrap gap-4 justify-center">
-            {['Upcoming', 'Previous'].map((category) => (
-              <motion.button
-                key={category}
-                onClick={() => setFilter(category)}
-                style={filter === category ? {
-                  background: category === 'Upcoming' 
-                    ? 'linear-gradient(to right, #E91E63, #C2185B)'
-                    : 'linear-gradient(to right, #6B7280, #4B5563)'
-                } : {}}
-                className={`px-6 py-2 rounded-lg font-semibold transition-all duration-300 ${
-                  filter === category
-                    ? 'text-white shadow-lg'
-                    : 'bg-white text-warm-charcoal hover:bg-gray-100 border border-gray-200'
-                }`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {category === 'Upcoming' ? '⭐ Upcoming Events' : '📅 Previous Events'}
-              </motion.button>
-            ))}
+            {['All', 'Upcoming', 'Previous'].map((category) => {
+              const getGradient = () => {
+                if (category === 'All') return 'linear-gradient(to right, #00BCD4, #2196F3)';
+                if (category === 'Upcoming') return 'linear-gradient(to right, #E91E63, #C2185B)';
+                return 'linear-gradient(to right, #6B7280, #4B5563)';
+              };
+
+              return (
+                <motion.button
+                  key={category}
+                  onClick={() => setFilter(category)}
+                  style={filter === category ? { background: getGradient() } : {}}
+                  className={`px-6 py-2 rounded-lg font-semibold transition-all duration-300 ${
+                    filter === category
+                      ? 'text-white shadow-lg'
+                      : 'bg-white text-warm-charcoal hover:bg-gray-100 border border-gray-200'
+                  }`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {category === 'All' ? 'All Events' : category === 'Upcoming' ? 'Upcoming Events' : 'Previous Events'}
+                </motion.button>
+              );
+            })}
           </AnimatedSection>
 
         {/* Loading State */}
@@ -136,7 +148,9 @@ const Events = () => {
               <AnimatedSection>
                 <div className="text-center py-16">
                   <p className="text-xl text-gray-600">
-                    {filter === 'Upcoming' ? 'No upcoming events at the moment.' : 'No previous events to display.'}
+                    {filter === 'All' ? 'No events to display.' : 
+                     filter === 'Upcoming' ? 'No upcoming events at the moment.' : 
+                     'No previous events to display.'}
                   </p>
                 </div>
               </AnimatedSection>
