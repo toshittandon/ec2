@@ -30,9 +30,17 @@ const Home = () => {
             Where entrepreneurship meets community impact. Join Berlin's most
             dynamic student organization fostering innovation and social change.
           </p>
-          <Link to="/events">
-            <ButtonPrimary>Explore Opportunities</ButtonPrimary>
-          </Link>
+          <a
+            href="https://chat.whatsapp.com/G1oZA23TBaDAfzf83LmfmI"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              background: 'linear-gradient(to right, #E91E63, #C2185B)'
+            }}
+            className="px-6 sm:px-8 py-3 rounded-lg font-semibold text-white hover:shadow-lg hover:scale-105 transition-all duration-300 inline-block text-center"
+          >
+            Join the Club
+          </a>
         </div>
       </section>
 

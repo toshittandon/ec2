@@ -325,10 +325,7 @@ export const contactAPI = {
         DATABASE_ID,
         COLLECTIONS.CONTACT_SUBMISSIONS,
         'unique()',
-        {
-          ...submissionData,
-          status: 'new', // Set default status
-        }
+        submissionData
       );
     } catch (error) {
       console.error('Error creating contact submission:', error);
