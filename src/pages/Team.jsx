@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { teamAPI, teamApplicationsAPI } from '../lib/api';
 import { teamImagesAPI } from '../lib/storage';
+import PageTransition from '../components/PageTransition';
+import AnimatedSection from '../components/AnimatedSection';
 
 const Team = () => {
   const [leadership, setLeadership] = useState([]);
@@ -103,23 +106,24 @@ const Team = () => {
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-16 bg-warm-bg">
-      <div className="container mx-auto px-4 sm:px-6">
-        {/* Header */}
-        <div className="mb-16 text-center">
-          <h1 style={{
-            background: 'linear-gradient(to right, #FFD700, #E91E63, #00BCD4)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text'
-          }} className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            Our Team
-          </h1>
-          <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto px-4">
-            Meet the passionate individuals driving EC²'s mission to empower
-            Berlin's next generation of entrepreneurs and community leaders.
-          </p>
-        </div>
+    <PageTransition>
+      <div className="min-h-screen pt-24 pb-16 bg-warm-bg">
+        <div className="container mx-auto px-4 sm:px-6">
+          {/* Header */}
+          <AnimatedSection className="mb-16 text-center">
+            <h1 style={{
+              background: 'linear-gradient(to right, #FFD700, #E91E63, #00BCD4)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            }} className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+              Our Team
+            </h1>
+            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto px-4">
+              Meet the passionate individuals driving EC²'s mission to empower
+              Berlin's next generation of entrepreneurs and community leaders.
+            </p>
+          </AnimatedSection>
 
         {/* Team Grid - Asymmetric Layout */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16">
@@ -142,11 +146,20 @@ const Team = () => {
             ];
             
             return (
-              <div
+              <motion.div
                 key={member.$id}
-                className={`bg-white rounded-2xl overflow-hidden smooth-shadow hover:smooth-shadow-hover transition-all duration-300 hover:-translate-y-2 ${
+                className={`bg-white rounded-2xl overflow-hidden smooth-shadow hover:smooth-shadow-hover ${
                   index === 0 ? 'sm:col-span-2 lg:col-span-1' : ''
                 }`}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ 
+                  duration: 0.5, 
+                  delay: index * 0.1,
+                  ease: [0.25, 0.4, 0.25, 1]
+                }}
+                whileHover={{ y: -8 }}
               >
                 {/* Profile Image Placeholder */}
                 <div style={{ background: gradients[index] }} className="h-56 sm:h-64 flex items-center justify-center overflow-hidden relative">
@@ -212,13 +225,13 @@ const Team = () => {
                   </a>
                 </div>
               </div>
-            </div>
+            </motion.div>
           );
           })}
         </div>
 
         {/* Join the Team Section */}
-        <div className="bg-white rounded-2xl p-8 sm:p-12 smooth-shadow text-center">
+        <AnimatedSection delay={0.2} className="bg-white rounded-2xl p-8 sm:p-12 smooth-shadow text-center">
           <h2 style={{
             background: 'linear-gradient(to right, #FF8C00, #E91E63, #2196F3)',
             WebkitBackgroundClip: 'text',
@@ -231,16 +244,18 @@ const Team = () => {
             We're always looking for passionate individuals to help lead EC².
             Applications for leadership positions open each semester.
           </p>
-          <button 
+          <motion.button 
             onClick={() => setShowApplicationForm(true)}
             style={{
               background: 'linear-gradient(to right, #E91E63, #C2185B)'
             }} 
-            className="text-white px-6 sm:px-8 py-3 rounded-lg font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300"
+            className="text-white px-6 sm:px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             Apply Now!!!
-          </button>
-        </div>
+          </motion.button>
+        </AnimatedSection>
 
         {/* Application Form Popup */}
         {showApplicationForm && (
@@ -448,37 +463,33 @@ const Team = () => {
 
         {/* Values Section */}
         <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
-          <div className="text-center bg-white rounded-xl p-6 smooth-shadow">
-            <div className="text-4xl sm:text-5xl mb-4">🎯</div>
-            <h3 className="text-lg sm:text-xl font-bold mb-2 text-warm-charcoal">
-              Mission-Driven
-            </h3>
-            <p className="text-sm sm:text-base text-gray-600">
-              We're committed to fostering entrepreneurship and community impact
-              in Berlin.
-            </p>
-          </div>
-          <div className="text-center bg-white rounded-xl p-6 smooth-shadow">
-            <div className="text-4xl sm:text-5xl mb-4">🤝</div>
-            <h3 className="text-lg sm:text-xl font-bold mb-2 text-warm-charcoal">
-              Collaborative
-            </h3>
-            <p className="text-sm sm:text-base text-gray-600">
-              We believe in the power of teamwork and diverse perspectives.
-            </p>
-          </div>
-          <div className="text-center bg-white rounded-xl p-6 smooth-shadow sm:col-span-2 md:col-span-1">
-            <div className="text-4xl sm:text-5xl mb-4">🚀</div>
-            <h3 className="text-lg sm:text-xl font-bold mb-2 text-warm-charcoal">
-              Innovation-Focused
-            </h3>
-            <p className="text-sm sm:text-base text-gray-600">
-              We encourage bold ideas and creative problem-solving.
-            </p>
-          </div>
+          {[
+            { icon: '🎯', title: 'Mission-Driven', desc: 'We\'re committed to fostering entrepreneurship and community impact in Berlin.' },
+            { icon: '🤝', title: 'Collaborative', desc: 'We believe in the power of teamwork and diverse perspectives.' },
+            { icon: '🚀', title: 'Innovation-Focused', desc: 'We encourage bold ideas and creative problem-solving.' }
+          ].map((value, index) => (
+            <motion.div 
+              key={value.title}
+              className={`text-center bg-white rounded-xl p-6 smooth-shadow ${index === 2 ? 'sm:col-span-2 md:col-span-1' : ''}`}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={{ y: -5 }}
+            >
+              <div className="text-4xl sm:text-5xl mb-4">{value.icon}</div>
+              <h3 className="text-lg sm:text-xl font-bold mb-2 text-warm-charcoal">
+                {value.title}
+              </h3>
+              <p className="text-sm sm:text-base text-gray-600">
+                {value.desc}
+              </p>
+            </motion.div>
+          ))}
         </div>
       </div>
     </div>
+    </PageTransition>
   );
 };
 

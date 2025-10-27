@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -36,17 +37,27 @@ const Header = () => {
           </Link>
 
           <ul className="hidden lg:flex items-center space-x-6 xl:space-x-8">
-            {['Home', 'Events', 'Blogs', 'Team', 'Contact'].map((item) => (
-              <li key={item}>
+            {['Home', 'Events', 'Blogs', 'Team', 'Contact'].map((item, index) => (
+              <motion.li 
+                key={item}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1, duration: 0.3 }}
+              >
                 <Link
                   to={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
-                  className={`font-medium transition-colors hover:text-ec2-pink ${
+                  className={`font-medium transition-colors hover:text-ec2-pink relative ${
                     scrolled || !isHome ? 'text-warm-bg' : 'text-warm-charcoal'
                   }`}
                 >
-                  {item}
+                  <motion.span
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {item}
+                  </motion.span>
                 </Link>
-              </li>
+              </motion.li>
             ))}
           </ul>
 
@@ -74,45 +85,62 @@ const Header = () => {
         </div>
 
         {/* Mobile menu overlay */}
-        {mobileMenuOpen && (
-          <div 
-            className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
-            onClick={() => setMobileMenuOpen(false)}
-          />
-        )}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div 
+              className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+              onClick={() => setMobileMenuOpen(false)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            />
+          )}
+        </AnimatePresence>
 
         {/* Mobile menu */}
-        <div className={`fixed top-0 right-0 h-full w-64 bg-white shadow-2xl transform transition-transform duration-300 ease-in-out z-50 lg:hidden ${
-          mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
-        style={{
-          backdropFilter: 'blur(10px)',
-          backgroundColor: 'rgba(255, 255, 255, 0.95)'
-        }}>
-          <div className="p-6">
-            <button
-              onClick={() => setMobileMenuOpen(false)}
-              className="absolute top-4 right-4 text-warm-charcoal hover:text-ec2-pink"
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div 
+              className="fixed top-0 right-0 h-full w-64 bg-white shadow-2xl z-50 lg:hidden"
+              style={{
+                backdropFilter: 'blur(10px)',
+                backgroundColor: 'rgba(255, 255, 255, 0.95)'
+              }}
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'tween', duration: 0.3, ease: 'easeInOut' }}
             >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
+              <div className="p-6">
+                <button
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="absolute top-4 right-4 text-warm-charcoal hover:text-ec2-pink"
+                >
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
             
-            <div className="mt-12">
-              <ul className="flex flex-col space-y-6">
-                {['Home', 'Events', 'Blogs', 'Team', 'Contact'].map((item) => (
-                  <li key={item}>
+                <div className="mt-12">
+                  <ul className="flex flex-col space-y-6">
+                {['Home', 'Events', 'Blogs', 'Team', 'Contact'].map((item, index) => (
+                  <motion.li 
+                    key={item}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1, duration: 0.3 }}
+                  >
                     <Link
                       to={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
                       onClick={() => setMobileMenuOpen(false)}
@@ -120,9 +148,14 @@ const Header = () => {
                     >
                       {item}
                     </Link>
-                  </li>
+                  </motion.li>
                 ))}
-                <li className="pt-4">
+                <motion.li 
+                  className="pt-4"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5, duration: 0.3 }}
+                >
                   <a
                     href="https://chat.whatsapp.com/G1oZA23TBaDAfzf83LmfmI"
                     target="_blank"
@@ -134,11 +167,13 @@ const Header = () => {
                   >
                     Join the Club
                   </a>
-                </li>
+                </motion.li>
               </ul>
             </div>
           </div>
-        </div>
+          </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
     </header>
   );

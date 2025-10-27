@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { blogsAPI, newsletterAPI } from '../lib/api';
 import { blogImagesAPI } from '../lib/storage';
+import PageTransition from '../components/PageTransition';
+import AnimatedSection from '../components/AnimatedSection';
 
 const Blogs = () => {
   const [filter, setFilter] = useState('All');
@@ -96,8 +99,9 @@ const Blogs = () => {
   };
 
   return (
-    <div className="min-h-screen bg-warm-bg">
-      {/* Hero Section */}
+    <PageTransition>
+      <div className="min-h-screen bg-warm-bg">
+        {/* Hero Section */}
       <section className="bg-white pt-24 sm:pt-32 pb-12 sm:pb-16 px-4">
         <div className="container mx-auto px-4 sm:px-6 text-center">
           <h1
@@ -335,6 +339,7 @@ const Blogs = () => {
         </div>
       </section>
     </div>
+    </PageTransition>
   );
 };
 

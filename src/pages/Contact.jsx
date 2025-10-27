@@ -1,6 +1,9 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import ButtonPrimary from '../components/ButtonPrimary';
 import { contactAPI } from '../lib/api';
+import PageTransition from '../components/PageTransition';
+import AnimatedSection from '../components/AnimatedSection';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -38,31 +41,33 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen pt-24 pb-16 bg-warm-bg">
-      <div className="container mx-auto px-4 sm:px-6">
-        {/* Header */}
-        <div className="mb-12 sm:mb-16 text-center">
-          <h1 style={{
-            background: 'linear-gradient(to right, #FFD700, #E91E63, #00BCD4)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text'
-          }} className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            Get in Touch
-          </h1>
-          <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto px-4">
-            Have questions? Want to collaborate? We'd love to hear from you.
-            Reach out and let's start a conversation.
-          </p>
-        </div>
+    <PageTransition>
+      <div className="min-h-screen pt-24 pb-16 bg-warm-bg">
+        <div className="container mx-auto px-4 sm:px-6">
+          {/* Header */}
+          <AnimatedSection className="mb-12 sm:mb-16 text-center">
+            <h1 style={{
+              background: 'linear-gradient(to right, #FFD700, #E91E63, #00BCD4)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            }} className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+              Get in Touch
+            </h1>
+            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto px-4">
+              Have questions? Want to collaborate? We'd love to hear from you.
+              Reach out and let's start a conversation.
+            </p>
+          </AnimatedSection>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 mb-12 sm:mb-16">
-          {/* Contact Form */}
-          <div className="bg-white rounded-2xl p-6 sm:p-8 smooth-shadow">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-warm-charcoal">
-              Send us a Message
-            </h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 mb-12 sm:mb-16">
+            {/* Contact Form */}
+            <AnimatedSection direction="left">
+              <div className="bg-white rounded-2xl p-6 sm:p-8 smooth-shadow">
+                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-warm-charcoal">
+                  Send us a Message
+                </h2>
+                <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label
                   htmlFor="name"
@@ -156,9 +161,10 @@ const Contact = () => {
               </ButtonPrimary>
             </form>
           </div>
+        </AnimatedSection>
 
           {/* Contact Information */}
-          <div className="space-y-8">
+          <AnimatedSection direction="right" delay={0.2} className="space-y-8">
             {/* Info Cards */}
             <div className="bg-white rounded-2xl p-8 smooth-shadow">
               <h3 className="text-2xl font-bold mb-6 text-warm-charcoal">
@@ -255,11 +261,11 @@ const Contact = () => {
                 </a>
               </div>
             </div>
-          </div>
+          </AnimatedSection>
         </div>
 
         {/* FAQ Section */}
-        <div className="bg-white rounded-2xl p-8 smooth-shadow">
+        <AnimatedSection delay={0.3} className="bg-white rounded-2xl p-8 smooth-shadow">
           <h2 className="text-3xl font-bold mb-8 text-warm-charcoal text-center">
             Frequently Asked Questions
           </h2>
@@ -301,9 +307,10 @@ const Contact = () => {
               </p>
             </div>
           </div>
-        </div>
+        </AnimatedSection>
       </div>
     </div>
+    </PageTransition>
   );
 };
 

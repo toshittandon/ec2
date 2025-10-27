@@ -1,37 +1,40 @@
+import { motion } from 'framer-motion';
+
 const ButtonPrimary = ({ children, onClick, href, className = '', ...props }) => {
   const baseStyle = {
     background: 'linear-gradient(to right, #E91E63, #C2185B)',
-    transition: 'all 0.3s ease'
   };
   
-  const hoverStyle = {
-    background: 'linear-gradient(to right, #C2185B, #E91E63)'
-  };
-  
-  const baseClasses = 'text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg hover:scale-105 inline-block';
+  const baseClasses = 'text-white px-8 py-3 rounded-lg font-semibold shadow-md inline-block';
   
   if (href) {
     return (
-      <a
+      <motion.a
         href={href}
         style={baseStyle}
         className={`${baseClasses} ${className}`}
+        whileHover={{ scale: 1.05, boxShadow: '0 10px 25px rgba(233, 30, 99, 0.3)' }}
+        whileTap={{ scale: 0.95 }}
+        transition={{ duration: 0.2 }}
         {...props}
       >
         {children}
-      </a>
+      </motion.a>
     );
   }
 
   return (
-    <button
+    <motion.button
       onClick={onClick}
       style={baseStyle}
       className={`${baseClasses} ${className}`}
+      whileHover={{ scale: 1.05, boxShadow: '0 10px 25px rgba(233, 30, 99, 0.3)' }}
+      whileTap={{ scale: 0.95 }}
+      transition={{ duration: 0.2 }}
       {...props}
     >
       {children}
-    </button>
+    </motion.button>
   );
 };
 
