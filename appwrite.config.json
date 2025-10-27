@@ -1,0 +1,22 @@
+{
+    "projectId": "68ff58d3001b0d9329c2",
+    "endpoint": "https://fra.cloud.appwrite.io/v1",
+    "databases": [
+        {
+            "$id": "68ff5a760014f5a1a49d",
+            "name": "Club_Data",
+            "enabled": true
+        }
+    ],
+    "collections": [
+        {
+            "$id": "68ff5a7600152a3db166",
+            "databaseId": "68ff5a760014f5a1a49d",
+            "name": "Events",
+            "documentSecurity": true,
+            "attributes": [],
+            "indexes": [],
+            "enabled": true
+        }
+    ]
+}

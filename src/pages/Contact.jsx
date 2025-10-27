@@ -1,18 +1,32 @@
 import { useState } from 'react';
 import ButtonPrimary from '../components/ButtonPrimary';
+import { contactAPI } from '../lib/api';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    subject: '',
     message: '',
   });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Mock form submission
-    alert('Thank you for your message! We\'ll get back to you soon.');
-    setFormData({ name: '', email: '', message: '' });
+    setSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      await contactAPI.create(formData);
+      setSubmitStatus({ type: 'success', message: 'Thank you for your message! We\'ll get back to you soon.' });
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } catch (error) {
+      console.error('Error submitting contact form:', error);
+      setSubmitStatus({ type: 'error', message: 'Failed to send message. Please try again.' });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -88,6 +102,25 @@ const Contact = () => {
 
               <div>
                 <label
+                  htmlFor="subject"
+                  className="block text-sm font-semibold text-warm-charcoal mb-2"
+                >
+                  Subject
+                </label>
+                <input
+                  type="text"
+                  id="subject"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-warm-accent focus:border-transparent transition-all"
+                  placeholder="What is this about?"
+                />
+              </div>
+
+              <div>
+                <label
                   htmlFor="message"
                   className="block text-sm font-semibold text-warm-charcoal mb-2"
                 >
@@ -105,7 +138,21 @@ const Contact = () => {
                 ></textarea>
               </div>
 
-              <ButtonPrimary className="w-full">Send Message</ButtonPrimary>
+              {submitStatus && (
+                <div
+                  className={`p-4 rounded-lg ${
+                    submitStatus.type === 'success'
+                      ? 'bg-green-50 text-green-800'
+                      : 'bg-red-50 text-red-800'
+                  }`}
+                >
+                  {submitStatus.message}
+                </div>
+              )}
+
+              <ButtonPrimary type="submit" className="w-full" disabled={submitting}>
+                {submitting ? 'Sending...' : 'Send Message'}
+              </ButtonPrimary>
             </form>
           </div>
 

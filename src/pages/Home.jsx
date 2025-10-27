@@ -50,18 +50,18 @@ const Home = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             <FeatureCard
               icon="💡"
-              title="Ideation Workshops"
-              description="Transform your ideas into viable startups with expert mentorship, hands-on workshops, and access to Berlin's thriving entrepreneurial ecosystem."
+              title="Innovate"
+              description="Launch new ideas, test business concepts, and turn passion into action with those that share your passion."
             />
             <FeatureCard
               icon="🌍"
-              title="Local Impact Projects"
-              description="Make a real difference in Berlin communities through sustainability initiatives, social programs, and collaborative projects that matter."
+              title="Connect"
+              description="Collaborate, network, and make friends with ambitious, creative peers."
             />
             <FeatureCard
               icon="🎤"
-              title="Global Speaker Series"
-              description="Learn from world-class entrepreneurs, innovators, and change-makers who share insights on building the future."
+              title="Lead"
+              description="Drive positive change in the local community and develop the leadership skills needed to command any stage, from the boardroom to the public forum."
             />
           </div>
         </div>

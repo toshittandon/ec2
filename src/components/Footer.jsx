@@ -54,20 +54,30 @@ const Footer = () => {
                   Team
                 </Link>
               </li>
+            </ul>
+          </div>
+
+          {/* Connect */}
+          <div>
+            <h4 className="font-semibold mb-4">Connect</h4>
+            <ul className="space-y-3 mb-4">
               <li>
                 <Link
                   to="/contact"
                   className="text-gray-300 hover:text-ec2-cyan transition-colors"
                 >
-                  Contact
+                  Contact Us
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/blogs#newsletter"
+                  className="text-gray-300 hover:text-ec2-cyan transition-colors"
+                >
+                  Newsletter
                 </Link>
               </li>
             </ul>
-          </div>
-
-          {/* Social */}
-          <div>
-            <h4 className="font-semibold mb-4">Connect</h4>
             <div className="flex space-x-4">
               <a
                 href="https://www.instagram.com/ec2_berlin?igsh=MWU3OWJpY3o1ZHFicA=="

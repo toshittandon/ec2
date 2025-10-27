@@ -1,110 +1,35 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { blogsAPI, newsletterAPI } from '../lib/api';
+import { blogImagesAPI } from '../lib/storage';
 
 const Blogs = () => {
   const [filter, setFilter] = useState('All');
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterStatus, setNewsletterStatus] = useState(null);
+  const [isSubscribing, setIsSubscribing] = useState(false);
 
-  const blogs = [
-    {
-      id: 1,
-      title: 'Building a Startup in Berlin: Lessons from the Trenches',
-      author: 'Sarah Chen',
-      date: 'Oct 20, 2025',
-      category: 'Entrepreneurship',
-      readTime: '5 min read',
-      image: '🚀',
-      excerpt: 'Three years ago, I launched my first startup in Berlin. Here are the key lessons I learned navigating Europe\'s startup capital...',
-      featured: true,
-    },
-    {
-      id: 2,
-      title: 'The Future of Community-Driven Innovation',
-      author: 'Marcus Weber',
-      date: 'Oct 15, 2025',
-      category: 'Community',
-      readTime: '7 min read',
-      image: '🤝',
-      excerpt: 'How grassroots movements are reshaping the entrepreneurial landscape in Berlin and beyond...',
-      featured: false,
-    },
-    {
-      id: 3,
-      title: 'Sustainable Startups: Profit with Purpose',
-      author: 'Elena Rodriguez',
-      date: 'Oct 10, 2025',
-      category: 'Sustainability',
-      readTime: '6 min read',
-      image: '🌱',
-      excerpt: 'Exploring how modern entrepreneurs are building businesses that prioritize both profit and environmental impact...',
-      featured: true,
-    },
-    {
-      id: 4,
-      title: 'Networking 101: Making Meaningful Connections',
-      author: 'Alex Thompson',
-      date: 'Oct 5, 2025',
-      category: 'Career',
-      readTime: '4 min read',
-      image: '🎯',
-      excerpt: 'Forget collecting business cards. Here\'s how to build genuine relationships that last...',
-      featured: false,
-    },
-    {
-      id: 5,
-      title: 'From Idea to MVP in 30 Days',
-      author: 'Lisa Schmidt',
-      date: 'Sep 28, 2025',
-      category: 'Entrepreneurship',
-      readTime: '8 min read',
-      image: '💡',
-      excerpt: 'A practical guide to rapid prototyping and validation without breaking the bank...',
-      featured: false,
-    },
-    {
-      id: 6,
-      title: 'Berlin\'s Startup Ecosystem: A 2025 Overview',
-      author: 'David Park',
-      date: 'Sep 22, 2025',
-      category: 'Industry Insights',
-      readTime: '10 min read',
-      image: '🏙️',
-      excerpt: 'An in-depth analysis of Berlin\'s thriving startup scene, key players, and emerging trends...',
-      featured: true,
-    },
-    {
-      id: 7,
-      title: 'The Art of Pitching: Captivating Investors',
-      author: 'Sophie Laurent',
-      date: 'Sep 15, 2025',
-      category: 'Entrepreneurship',
-      readTime: '6 min read',
-      image: '🎤',
-      excerpt: 'Master the essential elements of a winning pitch deck and presentation style...',
-      featured: false,
-    },
-    {
-      id: 8,
-      title: 'Community Service: The Unexpected Networking Tool',
-      author: 'James Wilson',
-      date: 'Sep 8, 2025',
-      category: 'Community',
-      readTime: '5 min read',
-      image: '🌟',
-      excerpt: 'How volunteering can expand your network while making a real difference in your community...',
-      featured: false,
-    },
-    {
-      id: 9,
-      title: 'Work-Life Balance in the Startup World',
-      author: 'Nina Patel',
-      date: 'Sep 1, 2025',
-      category: 'Career',
-      readTime: '7 min read',
-      image: '⚖️',
-      excerpt: 'Maintaining your wellbeing while building your dream company is possible. Here\'s how...',
-      featured: false,
-    },
-  ];
+  // Fetch blogs from Appwrite
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        setLoading(true);
+        const fetchedBlogs = await blogsAPI.getAll();
+        setBlogs(fetchedBlogs);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching blogs:', err);
+        setError('Failed to load blogs. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
 
   const categories = ['All', 'Entrepreneurship', 'Community', 'Sustainability', 'Career', 'Industry Insights'];
 
@@ -114,6 +39,27 @@ const Blogs = () => {
 
   const featuredBlogs = blogs.filter((blog) => blog.featured);
   const latestBlog = blogs[0];
+
+  const handleNewsletterSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubscribing(true);
+    setNewsletterStatus(null);
+
+    try {
+      await newsletterAPI.subscribe(newsletterEmail);
+      setNewsletterStatus({ type: 'success', message: 'Successfully subscribed! Check your inbox for confirmation.' });
+      setNewsletterEmail('');
+    } catch (error) {
+      console.error('Error subscribing to newsletter:', error);
+      if (error.message?.includes('duplicate')) {
+        setNewsletterStatus({ type: 'error', message: 'This email is already subscribed!' });
+      } else {
+        setNewsletterStatus({ type: 'error', message: 'Failed to subscribe. Please try again.' });
+      }
+    } finally {
+      setIsSubscribing(false);
+    }
+  };
 
   const getCategoryColor = (category) => {
     switch (category) {
@@ -173,7 +119,7 @@ const Blogs = () => {
       </section>
 
       {/* Featured Blog - Hero Style */}
-      {latestBlog && (
+      {!loading && !error && latestBlog && (
         <section className="py-8 sm:py-12 px-4">
           <div className="container mx-auto px-4 sm:px-6">
             <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-warm-charcoal">
@@ -187,7 +133,18 @@ const Blogs = () => {
             >
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
                 <div className="h-64 lg:h-auto flex items-center justify-center bg-white/10">
-                  <span className="text-8xl sm:text-9xl">{latestBlog.image}</span>
+                  {latestBlog.image ? (
+                    <img 
+                      src={blogImagesAPI.getPreview(latestBlog.image, 600, 400)} 
+                      alt={latestBlog.title}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.nextSibling.style.display = 'flex';
+                      }}
+                    />
+                  ) : null}
+                  <span className={`text-8xl sm:text-9xl ${latestBlog.image ? 'hidden' : ''}`}>📝</span>
                 </div>
                 <div className="p-6 sm:p-8 md:p-10 text-white flex flex-col justify-center">
                   <div className="text-sm font-semibold mb-3 opacity-90">
@@ -216,48 +173,77 @@ const Blogs = () => {
       )}
 
       {/* Category Filter */}
-      <section className="py-4 sm:py-8 px-4">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="flex flex-wrap gap-3 justify-center">
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setFilter(category)}
-                className={`px-4 sm:px-6 py-2 rounded-lg font-semibold transition-all duration-300 ${
-                  filter === category
-                    ? 'text-white shadow-lg scale-105'
-                    : 'bg-white text-warm-charcoal hover:shadow-md'
-                }`}
-                style={
-                  filter === category
-                    ? { background: getCategoryGradient(category === 'All' ? 'Industry Insights' : category) }
-                    : {}
-                }
-              >
-                {category}
-              </button>
-            ))}
+      {!loading && !error && (
+        <section className="py-4 sm:py-8 px-4">
+          <div className="container mx-auto px-4 sm:px-6">
+            <div className="flex flex-wrap gap-3 justify-center">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setFilter(category)}
+                  className={`px-4 sm:px-6 py-2 rounded-lg font-semibold transition-all duration-300 ${
+                    filter === category
+                      ? 'text-white shadow-lg scale-105'
+                      : 'bg-white text-warm-charcoal hover:shadow-md'
+                  }`}
+                  style={
+                    filter === category
+                      ? { background: getCategoryGradient(category === 'All' ? 'Industry Insights' : category) }
+                      : {}
+                  }
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
           </div>
+        </section>
+      )}
+
+      {/* Loading State */}
+      {loading && (
+        <div className="text-center py-16">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-ec2-pink"></div>
+          <p className="mt-4 text-gray-600">Loading blogs...</p>
         </div>
-      </section>
+      )}
+
+      {/* Error State */}
+      {error && (
+        <div className="text-center py-16">
+          <p className="text-xl text-red-500">{error}</p>
+        </div>
+      )}
 
       {/* Blog Grid */}
-      <section className="py-8 sm:py-12 px-4">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {filteredBlogs.slice(1).map((blog) => (
-              <article
-                key={blog.id}
-                className="bg-white rounded-xl overflow-hidden smooth-shadow hover:smooth-shadow-hover transition-all duration-300 hover:-translate-y-2 flex flex-col"
-              >
-                <div
-                  style={{
-                    background: getCategoryGradient(blog.category),
-                  }}
-                  className="h-48 flex items-center justify-center"
+      {!loading && !error && (
+        <section className="py-8 sm:py-12 px-4">
+          <div className="container mx-auto px-4 sm:px-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+              {filteredBlogs.slice(1).map((blog) => (
+                <article
+                  key={blog.$id}
+                  className="bg-white rounded-xl overflow-hidden smooth-shadow hover:smooth-shadow-hover transition-all duration-300 hover:-translate-y-2 flex flex-col"
                 >
-                  <span className="text-6xl">{blog.image}</span>
-                </div>
+                  <div
+                    style={{
+                      background: getCategoryGradient(blog.category),
+                    }}
+                    className="h-48 flex items-center justify-center"
+                  >
+                    {blog.image ? (
+                      <img 
+                        src={blogImagesAPI.getPreview(blog.image, 400, 300)} 
+                        alt={blog.title}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                          e.target.nextSibling.style.display = 'flex';
+                        }}
+                      />
+                    ) : null}
+                    <span className={`text-6xl ${blog.image ? 'hidden' : ''}`}>📝</span>
+                  </div>
                 <div className="p-6 flex-1 flex flex-col">
                   <div className="flex items-center justify-between mb-3">
                     <span
@@ -298,9 +284,10 @@ const Blogs = () => {
           </div>
         </div>
       </section>
+      )}
 
       {/* Newsletter CTA */}
-      <section className="py-12 sm:py-16 px-4">
+      <section id="newsletter" className="py-12 sm:py-16 px-4">
         <div className="container mx-auto px-4 sm:px-6">
           <div
             style={{
@@ -315,16 +302,35 @@ const Blogs = () => {
               Subscribe to our newsletter and get the latest articles, event updates,
               and exclusive insights delivered to your inbox.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+            <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
               <input
                 type="email"
+                value={newsletterEmail}
+                onChange={(e) => setNewsletterEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="flex-1 px-4 py-3 rounded-lg text-warm-charcoal focus:outline-none focus:ring-2 focus:ring-white"
+                required
+                disabled={isSubscribing}
+                className="flex-1 px-4 py-3 rounded-lg text-warm-charcoal focus:outline-none focus:ring-2 focus:ring-white disabled:opacity-50"
               />
-              <button className="px-6 py-3 bg-white text-warm-charcoal rounded-lg font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105">
-                Subscribe
+              <button 
+                type="submit" 
+                disabled={isSubscribing}
+                className="px-6 py-3 bg-white text-warm-charcoal rounded-lg font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:hover:scale-100"
+              >
+                {isSubscribing ? 'Subscribing...' : 'Subscribe'}
               </button>
-            </div>
+            </form>
+            {newsletterStatus && (
+              <div
+                className={`mt-6 p-4 rounded-lg max-w-md mx-auto ${
+                  newsletterStatus.type === 'success'
+                    ? 'bg-green-100 text-green-800'
+                    : 'bg-red-100 text-red-800'
+                }`}
+              >
+                {newsletterStatus.message}
+              </div>
+            )}
           </div>
         </div>
       </section>
